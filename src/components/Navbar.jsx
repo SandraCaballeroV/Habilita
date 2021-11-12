@@ -17,7 +17,7 @@ const Navbar = () => {
          
           <button
             onClick={() => loginWithRedirect()}
-            className='bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700'
+            className='bg-indigo-500 p-2 text-blue-100 rounded-lg shadow-md hover:bg-indigo-700'
           >
             Iniciar Sesión
           </button>
