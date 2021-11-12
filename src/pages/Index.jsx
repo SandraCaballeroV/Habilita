@@ -6,7 +6,10 @@ const Index = () => {
   const { darkMode } = useDarkMode();
   return (
     <div className={`flex h-full bg-gray-${darkMode ? '900' : '50'}`}>
-      Creación de Sistema de Gestión de Ventas - Habilitación
+      <h2 className='text-3xl font-extrabold text-gray-900  justify-items-center'>
+      Creación de Sistema de Gestión de Ventas - Habilitación Sandra Caballero V
+          </h2>
+    
     </div>
   );
 };
