@@ -7,7 +7,7 @@ import PrivateComponent from './PrivateComponent';
 const Sidebar = () => {
   const { user, logout } = useAuth0();
   const cerrarSesion = () => {
-    logout({ returnTo: 'https://whispering-bastion-16692.herokuapp.com/admin' });
+    logout({ returnTo: 'https://thawing-mountain-91326.herokuapp.com/admin' });
     localStorage.setItem('token', null);
   };
   return (
