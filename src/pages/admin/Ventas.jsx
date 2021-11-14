@@ -155,7 +155,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
                 <option
                   key={nanoid()}
                   value={el._id}
-                >{`${el.name} ${el.brand} ${el.model}`}</option>
+                >{`${el.name} ${el.brand} ${el.model} ${el.price}`}</option>
               );
             })}
           </select>
@@ -210,6 +210,7 @@ const FilaVehiculo = ({ veh, index, eliminarVehiculo, modificarVehiculo }) => {
       <td>{vehiculo.name}</td>
       <td>{vehiculo.brand}</td>
       <td>{vehiculo.model}</td>
+      <td>{vehiculo.price}</td>
       <td>
         <label htmlFor={`valor_${index}`}>
           <input
