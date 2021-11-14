@@ -130,7 +130,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
       filasTabla.map((ft) => {
         if (ft._id === vehiculo.id) {
           ft.cantidad = cantidad;
-          ft.total = vehiculo.valor * cantidad;
+          ft.total = vehiculo.price * cantidad;
         }
         return ft;
       })
