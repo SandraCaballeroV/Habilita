@@ -14,7 +14,6 @@ const Ventas = () => {
     const fetchVendores = async () => {
       await obtenerUsuarios(
         (response) => {
-          console.log('respuesta de usuarios', response);
           setVendedores(response.data);
         },
         (error) => {
@@ -38,11 +37,13 @@ const Ventas = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     const fd = new FormData(form.current);
+
     const formData = {};
     fd.forEach((value, key) => {
       formData[key] = value;
     });
     console.log('form data', formData);
+
     const listaVehiculos = Object.keys(formData)
       .map((k) => {
         if (k.includes('vehiculo')) {
@@ -51,14 +52,13 @@ const Ventas = () => {
         return null;
       })
       .filter((v) => v);
-    console.log('lista antes de cantidad', listaVehiculos);
-    console.log('lista despues de cantidad', listaVehiculos);
+  
     const datosVenta = {
       vendedor: vendedores.filter((v) => v._id === formData.vendedor)[0],
       cantidad: formData.valor,
       vehiculos: listaVehiculos,
     };
-    console.log('lista vehiculos', listaVehiculos);
+    
     await crearVenta(
       datosVenta,
       (response) => {
