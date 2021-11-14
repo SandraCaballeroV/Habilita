@@ -37,13 +37,11 @@ const Ventas = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     const fd = new FormData(form.current);
-
     const formData = {};
     fd.forEach((value, key) => {
       formData[key] = value;
     });
     console.log('form data', formData);
-
     const listaVehiculos = Object.keys(formData)
       .map((k) => {
         if (k.includes('vehiculo')) {
@@ -58,7 +56,9 @@ const Ventas = () => {
       cantidad: formData.valor,
       vehiculos: listaVehiculos,
     };
+
     
+
     await crearVenta(
       datosVenta,
       (response) => {
@@ -111,13 +111,11 @@ const Ventas = () => {
 const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
   const [vehiculoAAgregar, setVehiculoAAgregar] = useState({});
   const [filasTabla, setFilasTabla] = useState([]);
+
   useEffect(() => {
-    console.log(vehiculoAAgregar);
-  }, [vehiculoAAgregar]);
-  useEffect(() => {
-    console.log('filasTabla', filasTabla);
     setVehiculosTabla(filasTabla);
   }, [filasTabla, setVehiculosTabla]);
+
   const agregarNuevoVehiculo = () => {
     setFilasTabla([...filasTabla, vehiculoAAgregar]);
     setVehiculos(vehiculos.filter((v) => v._id !== vehiculoAAgregar._id));
@@ -127,18 +125,17 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
     setFilasTabla(filasTabla.filter((v) => v._id !== vehiculoAEliminar._id));
     setVehiculos([...vehiculos, vehiculoAEliminar]);
   };
-
   const modificarVehiculo = (vehiculo, cantidad) => {
     setFilasTabla(
       filasTabla.map((ft) => {
         if (ft._id === vehiculo.id) {
           ft.cantidad = cantidad;
+          ft.total = vehiculo.valor * cantidad;
         }
         return ft;
       })
     );
   };
-
   return (
     <div>
       <div className='flex '>
@@ -179,6 +176,8 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
             <th>Marca</th>
             <th>Modelo</th>
             <th>Cantidad</th>
+            <th>Valor Unitario</th>
+            <th>Total</th>
             <th>Eliminar</th>
             <th className='hidden'>Input</th>
           </tr>
@@ -188,7 +187,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
             return (
               <FilaVehiculo
                 key={el._id}
-                vehiculo={el}
+                veh={el}
                 index={index}
                 eliminarVehiculo={eliminarVehiculo}
                 modificarVehiculo={modificarVehiculo}
@@ -200,7 +199,11 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
     </div>
   );
 };
-const FilaVehiculo = ({ vehiculo, index, eliminarVehiculo, modificarVehiculo }) => {
+const FilaVehiculo = ({ veh, index, eliminarVehiculo, modificarVehiculo }) => {
+  const [vehiculo, setVehiculo] = useState(veh);
+  useEffect(() => {
+    console.log('veh', vehiculo);
+  }, [vehiculo]);
   return (
     <tr>
       <td>{vehiculo._id}</td>
@@ -213,17 +216,28 @@ const FilaVehiculo = ({ vehiculo, index, eliminarVehiculo, modificarVehiculo }) 
             type='number'
             name={`cantidad_${index}`}
             value={vehiculo.cantidad}
-            onChange={(e) => modificarVehiculo(vehiculo, e.target.value)}
+            onChange={(e) => {
+              modificarVehiculo(vehiculo, e.target.value === '' ? '0' : e.target.value);
+              setVehiculo({
+                ...vehiculo,
+                cantidad: e.target.value === '' ? '0' : e.target.value,
+                total:
+                  parseFloat(vehiculo.valor) *
+                  parseFloat(e.target.value === '' ? '0' : e.target.value),
+              });
+            }}
           />
         </label>
       </td>
+      <td>{vehiculo.valor}</td>
+      <td>{parseFloat(vehiculo.total ?? 0)}</td>
       <td>
         <i
           onClick={() => eliminarVehiculo(vehiculo)}
           className='fas fa-minus text-red-500 cursor-pointer'
         />
       </td>
-      <td>
+      <td className='hidden'>
         <input hidden defaultValue={vehiculo._id} name={`vehiculo_${index}`} />
       </td>
     </tr>
