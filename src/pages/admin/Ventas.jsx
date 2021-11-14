@@ -155,7 +155,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
                 <option
                   key={nanoid()}
                   value={el._id}
-                >{`${el.name} ${el.brand} ${el.model} ${el.price}`}</option>
+                >{`${el.name} ${el.brand} ${el.model}`}</option>
               );
             })}
           </select>
@@ -210,7 +210,7 @@ const FilaVehiculo = ({ veh, index, eliminarVehiculo, modificarVehiculo }) => {
       <td>{vehiculo.name}</td>
       <td>{vehiculo.brand}</td>
       <td>{vehiculo.model}</td>
-      <td>{vehiculo.price}</td>
+      
       <td>
         <label htmlFor={`valor_${index}`}>
           <input
@@ -223,14 +223,14 @@ const FilaVehiculo = ({ veh, index, eliminarVehiculo, modificarVehiculo }) => {
                 ...vehiculo,
                 cantidad: e.target.value === '' ? '0' : e.target.value,
                 total:
-                  parseFloat(vehiculo.valor) *
+                  parseFloat(vehiculo.price) *
                   parseFloat(e.target.value === '' ? '0' : e.target.value),
               });
             }}
           />
         </label>
       </td>
-      <td>{vehiculo.valor}</td>
+      <td>{vehiculo.price}</td>
       <td>{parseFloat(vehiculo.total ?? 0)}</td>
       <td>
         <i
