@@ -112,6 +112,7 @@ const TablaVehiculos = ({ loading, listaVehiculos, setEjecutarConsulta }) => {
                 <th>Nombre del vehículo</th>
                 <th>Marca del vehículo</th>
                 <th>Modelo del vehículo</th>
+                
                 <PrivateComponent roleList={['admin']}>
                   <th>Acciones</th>
                 </PrivateComponent>
@@ -309,6 +310,7 @@ const FormularioCreacionVehiculos = ({ setMostrarTabla, listaVehiculos, setVehic
         name: nuevoVehiculo.name,
         brand: nuevoVehiculo.brand,
         model: nuevoVehiculo.model,
+        price: nuevoVehiculo.price,
       },
       (response) => {
         console.log(response.data);
@@ -319,22 +321,7 @@ const FormularioCreacionVehiculos = ({ setMostrarTabla, listaVehiculos, setVehic
         toast.error('Error creando un vehículo');
       }
     );
-    // const options = {
-    //   method: 'POST',
-    //   url: 'http://localhost:5000/vehiculos/nuevo/',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   data: { name: nuevoVehiculo.name, brand: nuevoVehiculo.brand, model: nuevoVehiculo.model },
-    // };
-    // await axios
-    //   .request(options)
-    //   .then(function (response) {
-    //     console.log(response.data);
-    //     toast.success('Vehículo agregado con éxito');
-    //   })
-    //   .catch(function (error) {
-    //     console.error(error);
-    //     toast.error('Error creando un vehículo');
-    //   });
+    
     setMostrarTabla(true);
   };
   return (
@@ -378,6 +365,18 @@ const FormularioCreacionVehiculos = ({ setMostrarTabla, listaVehiculos, setVehic
             min={1992}
             max={2022}
             placeholder='2014'
+            required
+          />
+        </label>
+        <label className='flex flex-col' htmlFor='modelo'>
+          Precio Unitario
+          <input
+            name='price'
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+            type='number'
+            min={120000000}
+            max={500000000}
+            placeholder='120000000'
             required
           />
         </label>
