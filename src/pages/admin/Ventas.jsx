@@ -6,10 +6,15 @@ import { obtenerUsuarios } from 'utils/api';
 
 
 const Ventas = () => {
+  const [mostrarTabla, setMostrarTabla] = useState(true);
+  const [textoBoton, setTextoBoton] = useState('Crear Venta');
+  const [colorBoton, setColorBoton] = useState('indigo');
+  const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
   const form = useRef(null);
   const [vendedores, setVendedores] = useState([]);
   const [vehiculos, setVehiculos] = useState([]);
   const [vehiculosTabla, setVehiculosTabla] = useState([]);
+  
   useEffect(() => {
     const fetchVendores = async () => {
       await obtenerUsuarios(
@@ -34,6 +39,8 @@ const Ventas = () => {
     fetchVendores();
     fetchVehiculos();
   }, []);
+
+  
   const submitForm = async (e) => {
     e.preventDefault();
     const fd = new FormData(form.current);
@@ -69,6 +76,24 @@ const Ventas = () => {
       }
     );
   };
+
+  
+  useEffect(() => {
+    //obtener lista de ventas desde el backend
+    if (mostrarTabla) {
+      setEjecutarConsulta(true);
+    }
+  }, [mostrarTabla]);
+  useEffect(() => {
+    if (mostrarTabla) {
+      setTextoBoton('Crear Venta');
+      setColorBoton('indigo');
+    } else {
+      setTextoBoton('Mostrar Todas las ventas');
+      setColorBoton('green');
+    }
+  }, [mostrarTabla]);
+
   return (
     <div className='flex h-full w-full items-center justify-center'>
       <form ref={form} onSubmit={submitForm} className='flex flex-col h-full'>
@@ -115,6 +140,7 @@ const TablaVehiculos = ({ vehiculos, setVehiculos, setVehiculosTabla }) => {
   useEffect(() => {
     setVehiculosTabla(filasTabla);
   }, [filasTabla, setVehiculosTabla]);
+  
 
   const agregarNuevoVehiculo = () => {
     setFilasTabla([...filasTabla, vehiculoAAgregar]);
